@@ -2,22 +2,56 @@
    "patients":[
       {
          "first":"John",
-         "last": "Smith",
+         "last":"Smith",
          "status":"OK",
          "key":0,
-         "image": "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+         "image":"https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
          "prescriptions":[
-         	"Zyrtec", "Aspirin", "Amoxicillin"
+            {
+               "name":"Zyrtec",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            },
+            {
+               "name":"Aspirin",
+               "dosage":"500mg",
+               "time":"8am",
+               "interval":"daily"
+            },
+            {
+               "name":"Amoxicillin",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            }
          ]
       },
       {
          "first":"Sandra",
-         "last": "Truett",
+         "last":"Truett",
          "status":"OK",
          "key":1,
-         "image": "https://images.pexels.com/photos/871495/pexels-photo-871495.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+         "image":"https://images.pexels.com/photos/871495/pexels-photo-871495.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
          "prescriptions":[
-         	"Plavix", "Zestril"
+            {
+               "name":"Plavix",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            },
+            {
+               "name":"Zestril",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            },
+            {
+               "name":"Acetominophen",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            }
          ]
       },
       {
@@ -25,29 +59,44 @@
          "last":"Engle",
          "status":"OK",
          "key":2,
-         "image": "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+         "image":"https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
          "prescriptions":[
-         	"Tylenol"
+            {
+               "name":"Tylenol",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            }
          ]
       },
       {
          "first":"Nathan",
-         "last": "White",
+         "last":"White",
          "status":"Needs attention",
          "key":3,
-         "image": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+         "image":"https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
          "prescriptions":[
-         	"Claritin"
+            {
+               "name":"Claritin Clear",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            }
          ]
       },
       {
-         "first":"Connors",
-         "last":"Annie",
+         "first":"Annie",
+         "last":"Connors",
          "key":4,
          "status":"OK",
-         "image": "https://images.pexels.com/photos/1036620/pexels-photo-1036620.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+         "image":"https://images.pexels.com/photos/1036620/pexels-photo-1036620.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
          "prescriptions":[
-         	"Aspirin"
+            {
+               "name":"Aspirin",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            }
          ]
       },
       {
@@ -55,9 +104,26 @@
          "last":"Isaac",
          "key":5,
          "status":"Needs attention",
-         "image": "https://images.pexels.com/photos/935969/pexels-photo-935969.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+         "image":"https://images.pexels.com/photos/935969/pexels-photo-935969.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
          "prescriptions":[
-         	"Tylenol"
+            {
+               "name":"Tylenol",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            },
+            {
+               "name":"Aspirin",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            },
+            {
+               "name":"Ibuprofen",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            }
          ]
       },
       {
@@ -65,9 +131,20 @@
          "last":"Zhang",
          "key":6,
          "status":"Warning",
-         "image": "https://images.pexels.com/photos/765191/pexels-photo-765191.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+         "image":"https://images.pexels.com/photos/765191/pexels-photo-765191.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
          "prescriptions":[
-         	"DayQuil", "Birth Control"
+            {
+               "name":"Dayquil",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            },
+            {
+               "name":"Birth Control",
+               "dosage":"N/A",
+               "time":"8am",
+               "interval":"daily"
+            }
          ]
       },
       {
@@ -75,9 +152,20 @@
          "key":7,
          "last":"Crowley",
          "status":"OK",
-         "image": "https://images.pexels.com/photos/6110/man-holiday-people-face.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+         "image":"https://images.pexels.com/photos/6110/man-holiday-people-face.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
          "prescriptions":[
-         	"Claritin", "Abilify"
+            {
+               "name":"Claritin",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            },
+            {
+               "name":"Abilify",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            }
          ]
       },
       {
@@ -85,9 +173,14 @@
          "last":"Brown",
          "status":"Warning",
          "key":8,
-         "image": "https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+         "image":"https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
          "prescriptions":[
-         	"Amoxicillin"
+            {
+               "name":"Amoxicillin",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            }
          ]
       },
       {
@@ -95,9 +188,26 @@
          "last":"Hunt",
          "status":"Warning",
          "key":9,
-         "image": "https://images.pexels.com/photos/794064/pexels-photo-794064.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+         "image":"https://images.pexels.com/photos/794064/pexels-photo-794064.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
          "prescriptions":[
-         	"Lipitor", "Seroquel"
+            {
+               "name":"Lipitor",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            },
+            {
+               "name":"Seroquel",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            },
+            {
+               "name":"Amoxicillin",
+               "dosage":"10mg",
+               "time":"8am",
+               "interval":"daily"
+            }
          ]
       }
    ]

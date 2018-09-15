@@ -11,6 +11,7 @@ import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem'
 import SvgIcon from '@material-ui/core/SvgIcon'
+import Button from '@material-ui/core/Button'
 
 // list imports
 import ListItem from '@material-ui/core/ListItem'
@@ -141,6 +142,7 @@ export default class Header extends React.Component {
 						<Typography variant="title" color="inherit">
 							PillUp	
 						</Typography>
+						<Button color="inherit" style={{position: 'absolute', right: 8}}>Sort</Button>
 					</Toolbar>
 				</AppBar>
 				<SwipeableDrawer

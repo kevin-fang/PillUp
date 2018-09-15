@@ -1,4 +1,5 @@
 import React from 'react'
+import { GetPatients } from '../Api.js'
 
 export class PatientDisplayComponent extends React.Component {
 	render = () => {

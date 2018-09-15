@@ -15,7 +15,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<MuiThemeProvider>
+				<MuiThemeProvider theme={muiTheme}>
 					<div className='App'>
 						<Header />
 						<Main />
