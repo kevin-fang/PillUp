@@ -40,6 +40,12 @@ function HomeIcon(props) {
 		)
 }
 
+// disable underline for navigation bar
+const noLinkUnderline = { 
+    textDecoration: 'none' 
+}
+
+
 export default class Header extends React.Component {
 
 	constructor(props) {
@@ -65,24 +71,30 @@ export default class Header extends React.Component {
 		// create the side list containing home, patient, about, and sign out buttons
 		const sideList = (
 			<div style={{width: "100%"}}>
-				<ListItem button onClick={() => alert('test')}>
-					<ListItemIcon>
-						<HomeOutlineIcon />
-					</ListItemIcon>
-					<ListItemText primary="Home" />
-				</ListItem>
-				<ListItem button>
-					<ListItemIcon>
-						<PermIdentityOutlineIcon />
-					</ListItemIcon>
-					<ListItemText primary="Patient" />
-				</ListItem>
-				<ListItem button>
-					<ListItemIcon>
-						<InfoOutlineIcon />
-					</ListItemIcon>
-					<ListItemText primary="About" />
-				</ListItem>
+				<Link to='/' style={noLinkUnderline}>
+					<ListItem button>
+						<ListItemIcon>
+							<HomeOutlineIcon />
+						</ListItemIcon>
+						<ListItemText primary="Home" />
+					</ListItem>
+				</Link>
+				<Link to='/patient' style={noLinkUnderline}>
+					<ListItem button>
+						<ListItemIcon>
+							<PermIdentityOutlineIcon />
+						</ListItemIcon>
+						<ListItemText primary="Patient" />
+					</ListItem>
+				</Link>
+				<Link to='/about' style={noLinkUnderline}>
+					<ListItem button>
+						<ListItemIcon>
+							<InfoOutlineIcon />
+						</ListItemIcon>
+						<ListItemText primary="About" />
+					</ListItem>
+				</Link>
 				<Divider />
 				<ListItem button>
 					<ListItemIcon>
@@ -97,28 +109,27 @@ export default class Header extends React.Component {
 		const doctorCard = (
 			<Card style={{margin: 10}}>
 				<CardMedia
-					style={{height: 250}}
+					style={{height: 250, objectFit: 'cover'}}
 					image="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
 					title="Shayan"
 				/>
-				<div style={{padding: 20, minWidth: 275}}>
-					<Typography className={{marginBottom: 16, fontSize: 14}} color="textSecondary">
+				<CardContent style={{padding: 20, minWidth: 275}}>
+					{/*<Typography className={{marginBottom: 16, fontSize: 14}} color="textSecondary">
 						Welcome
-					</Typography>
+					</Typography>*/}
 					<Typography gutterBottom variant="headline" component="h2">
-						Doctor Shayan
+						Welcome, Doctor Shayan
 					</Typography>
 					<Typography component="p">
 						Johns Hopkins Hospital
 					</Typography>
-				</div>
+				</CardContent>
 			</Card>
 		)
 
 		return (
 			<div>
-				<AppBar
-					onLeftIconButtonTouchTap={() => alert('test')}>
+				<AppBar>
 					<Toolbar>
 						<IconButton color="inherit" 
 							aria-label="Menu" 

@@ -1,50 +1,82 @@
 import React from 'react'
 
-// list stuff
+import Typography from '@material-ui/core/Typography'
+
+// list imports
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
+// card imports
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+
+
+import FlipMove from 'react-flip-move';
+
 let sampleData = require('../patients.json')
+sampleData.patients.sort((a, b) => {
+	return a.name > b.name
+})
 
 export class HomePageComponent extends React.Component {
-	render = () => {
-		let introStyle = {
-			padding: 70,
-			paddingBottom: 20,
-			flex: 1,
-			fontSize: 80, 
-			fontColor: '#FF0000',
-			backgroundColor: "#e6ffff",
-			textAlign: 'center'
-		}
+
+	generatePatientCard = (patient) => {
+		return (
+			<Card key={patient.name} style={{margin: 10, minWidth: 200}}>
+				<div style={{}}>
+					{/*<Typography className={{marginBottom: 16, fontSize: 14}} color="textSecondary">
+						Welcome
+					</Typography>*/}
+					<CardMedia
+					style={{height: 250, objectFit: 'cover'}}
+					image={patient.image}
+					title="Shayan"
+					/>
+					<CardContent>
+						<Typography gutterBottom variant="headline" component="h2">
+							{patient.name.split(' ')[0] + " "} 
+							{patient.name.split(' ')[1]}
+						</Typography>
+						<Typography component="p">
+							<b>Status:</b> {patient.status}
+						</Typography>
+					</CardContent>
+					<CardActions style={{position: 'relative', bottom: 0}}>
+						<Button onClick={this.displayCard} size="small" color="primary">
+						  Patient Info
+						</Button>
+						<Button size="small" color="secondary">
+						  Modify Prescription
+						</Button>
+					</CardActions>
+				</div>
+			</Card>
+		)
+	}
+	render() {
 
 		let patientListStyle = {
-			padding: 10,
+			paddingTop: 15,
 			paddingLeft: 0,
 			fontSize: 40, 
+			height: "100%", 
 			fontColor: '#FF0000',
 			backgroundColor: "#e6eeff",
-			textAlign: 'center'
 		}
 		return (
 			<div>
-				<div style={introStyle}>
-					Welcome, Doctor Shayan
-				</div>
 				<div style={patientListStyle}>
 					Patient Statuses
-					<ul style={{listStyleType: 'none', width: "100%", padding: 8}}>
+					<div style={{display: 'flex', flexWrap: 'wrap', flexDirection: 'row', padding: 8}}>
 						{
-							sampleData.patients.map((patient) => {
-								return (
-									<ListItem button>
-										<ListItemText>{patient.name}</ListItemText>
-									</ListItem>
-									)
-							})
+							sampleData.patients.map(this.generatePatientCard)
 						}
-					</ul>
+					</div>
 				</div>
 			</div>
 		)
