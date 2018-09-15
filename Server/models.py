@@ -82,19 +82,22 @@ class Doctor(Document):
     last_name = StringField()
     medical_school = StringField()
     specialty = StringField()
+    profile_pic = StringField()
 
     @property
     def patients(self):
         return [Patient.objects.filter(doctor_id=self.id)]
 
     @classmethod
-    def init(cls, first_name, last_name, medical_school, specialty):
+    def init(cls, first_name, last_name, medical_school,
+             specialty, profile_pic):
         temp = cls()
         temp.id = random_str()
         temp.first_name = first_name
         temp.last_name = last_name
         temp.medical_school = medical_school
         temp.specialty = specialty
+        temp.profile_pic = profile_pic
         return temp
 
     def to_json(self, patients=False):
@@ -103,7 +106,8 @@ class Doctor(Document):
             "first_name": self.first_name,
             "last_name": self.last_name,
             "medical_school": self.medical_school,
-            "specialty": self.specialty
+            "specialty": self.specialty,
+            "profile_pic": self.profile_pic
         }
 
         if patients:
