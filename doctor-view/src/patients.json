@@ -1,0 +1,39 @@
+{
+   "patients":[
+      {
+         "name":"Smith, John",
+         "status":"OK",
+         "image": ""
+      },
+      {
+         "name":"Truett, Sandra",
+         "status":"Needs attention",
+         "image": ""
+      },
+      {
+         "name":"Engle, Margaret",
+         "status":"OK",
+         "image": ""
+      },
+      {
+         "name":"White, Nathan",
+         "status":"OK",
+         "image": ""
+      },
+      {
+         "name":"Connors, Annie",
+         "status":"OK",
+         "image": ""
+      },
+      {
+         "name":"Smith, Ted",
+         "status":"Needs attention",
+         "image": ""
+      },
+      {
+         "name":"Gibney, Nancy",
+         "status":"Warning",
+         "image": ""
+      }
+   ]
+}

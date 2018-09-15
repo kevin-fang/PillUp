@@ -1,28 +1,37 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-// @material-ui/core stuff
-import Drawer from '@material-ui/core/Drawer'
+// @material-ui/core imports
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import Toolbar from '@material-ui/core/Toolbar'
 import AppBar from '@material-ui/core/AppBar'
 import Typography from '@material-ui/core/Typography'
 import List from '@material-ui/core/List'
-import Divider from '@material-ui/core/Divider';
+import Divider from '@material-ui/core/Divider'
+import IconButton from '@material-ui/core/IconButton'
+import MenuItem from '@material-ui/core/MenuItem'
+import SvgIcon from '@material-ui/core/SvgIcon'
 
-// list stuff
-import ListItem from '@material-ui/core/ListItem';
+// list imports
+import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-// menu stuff
-import IconButton from '@material-ui/core/IconButton'
-import MenuItem from '@material-ui/core/MenuItem'
-import MenuIcon from '@material-ui/icons/Menu'
-import SvgIcon from '@material-ui/core/SvgIcon'
-import AccessibilityIcon from '@material-ui/icons/Accessibility'
-import InfoIcon from '@material-ui/icons/Info'
+// menu imports
+import HomeOutlineIcon from '@material-ui/icons/HomeOutlined'
+import MenuOutlineIcon from '@material-ui/icons/MenuOutlined'
+import PermIdentityOutlineIcon from '@material-ui/icons/PermIdentityOutlined'
+import InfoOutlineIcon from '@material-ui/icons/InfoOutlined'
+import DoneOutlineIcon from '@material-ui/icons/DoneOutlined'
 
+// card imports
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 
+// generate a home SVG icon
 function HomeIcon(props) {
 	return (
 			<SvgIcon {...props}>
@@ -53,28 +62,57 @@ export default class Header extends React.Component {
 	}
 
 	render () {
-
+		// create the side list containing home, patient, about, and sign out buttons
 		const sideList = (
-			<div style={{width: 250}}>
+			<div style={{width: "100%"}}>
 				<ListItem button onClick={() => alert('test')}>
 					<ListItemIcon>
-						<HomeIcon />
+						<HomeOutlineIcon />
 					</ListItemIcon>
 					<ListItemText primary="Home" />
 				</ListItem>
 				<ListItem button>
 					<ListItemIcon>
-						<AccessibilityIcon />
+						<PermIdentityOutlineIcon />
 					</ListItemIcon>
 					<ListItemText primary="Patient" />
 				</ListItem>
 				<ListItem button>
 					<ListItemIcon>
-						<InfoIcon />
+						<InfoOutlineIcon />
 					</ListItemIcon>
 					<ListItemText primary="About" />
 				</ListItem>
+				<Divider />
+				<ListItem button>
+					<ListItemIcon>
+						<DoneOutlineIcon />
+					</ListItemIcon>
+					<ListItemText primary="Sign out" />
+				</ListItem>
 			</div>
+		)
+
+		// create main doctor card
+		const doctorCard = (
+			<Card style={{margin: 10}}>
+				<CardMedia
+					style={{height: 250}}
+					image="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+					title="Shayan"
+				/>
+				<div style={{padding: 20, minWidth: 275}}>
+					<Typography className={{marginBottom: 16, fontSize: 14}} color="textSecondary">
+						Welcome
+					</Typography>
+					<Typography gutterBottom variant="headline" component="h2">
+						Doctor Shayan
+					</Typography>
+					<Typography component="p">
+						Johns Hopkins Hospital
+					</Typography>
+				</div>
+			</Card>
 		)
 
 		return (
@@ -86,15 +124,16 @@ export default class Header extends React.Component {
 							aria-label="Menu" 
 							onClick={this.openNavigationMenu}
 							style={{marginLeft: -12, marginRight: 20}}>
-							<MenuIcon />
+							<MenuOutlineIcon />
 						</IconButton>
 						<Typography variant="title" color="inherit">
 							PillUp	
 						</Typography>
 					</Toolbar>
 				</AppBar>
-				<Drawer
+				<SwipeableDrawer
 					open={this.state.open}
+					onOpen={this.openNavigationMenu}
 					onClose={this.closeNavigationMenu}>
 					<div
 						tabIndex=''
@@ -103,9 +142,12 @@ export default class Header extends React.Component {
 						style={{marginTop: 10}}
 						onKeyDown={this.closeNavigationMenu}
 						>
-						{sideList}
+						{doctorCard}
+						<div style={{marginTop: 10, width: "100%"}}>
+							{sideList}
+						</div>
 					</div>
-				</Drawer>
+				</SwipeableDrawer>
 			</div>
 		)
 	}
