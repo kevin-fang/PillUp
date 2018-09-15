@@ -1,10 +1,12 @@
-from mongoengine import *
-from utilities import random_str
 from time import time
+from mongoengine import *
+from Utilities.utilities import random_str
+from Utilities.NotificationCenter import NotificationCenter as NC
 
 
 class Medicine(EmbeddedDocument):
 
+    id = StringField()
     name = StringField()
     description = StringField()
     side_effects = StringField()
@@ -17,6 +19,7 @@ class Medicine(EmbeddedDocument):
     @classmethod
     def init(cls, name, description, side_effects, every, cartridge, count):
         temp = cls()
+        temp.id = random_str()
         temp.name = name
         temp.description = description
         temp.side_effects = side_effects
@@ -151,6 +154,7 @@ class Patient(Document):
     def to_json(self, medicine=False):
         doc = {
             "id": self.id,
+            "doctor_id": self.doctor_id,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "address": self.address,
@@ -163,3 +167,13 @@ class Patient(Document):
             doc["medicine"] = [x.to_json() for x in self.medicine]
 
         return doc
+
+    def dispense(self, medicine):
+        data = self.to_json()
+        data['medicine'] = medicine.to_json()
+        NC.default().post_notification('dispense', data)
+
+    def request_refill(self, medicine):
+        data = self.to_json()
+        data['medicine'] = medicine.to_json()
+        NC.default().post_notification('refill', data)

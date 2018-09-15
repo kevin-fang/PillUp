@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request, abort
 from models import *
-from pprint import pprint
 
 mod = Blueprint(__name__, 'routes')
 
@@ -22,7 +21,7 @@ def get_doctors():
 
 @mod.route('/doctor/<id>', methods=['GET'])
 def get_doctor(id):
-    return jsonify(Patient.objects.filter(id=id).first().to_json())
+    return jsonify(Doctor.objects.filter(id=id).first().to_json())
 
 
 @mod.route('/doctor/<id>/patients', methods=['GET'])
@@ -87,6 +86,20 @@ def post_medicine(id):
     patient.medicine.append(medicine)
     patient.save()
 
+    return jsonify(patient.to_json(True))
+
+
+@mod.route('/patient/<id>/medicine/<medicine_id>/refill', methods=['POST'])
+def refill_medicine(id, medicine_id):
+
+    patient = Patient.objects.filter(id=id).first()
+    if not patient:
+        abort(404)
+
+    for medicine in patient.medicine:
+        if medicine.id == medicine_id:
+            medicine.count += int(request.json['count'])
+    patient.save()
     return jsonify(patient.to_json(True))
 
 

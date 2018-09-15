@@ -1,7 +1,8 @@
-import database
-from models import *
 import json
-from utilities import random_str
+
+import database
+
+from models import *
 
 
 def load_patients():
@@ -15,7 +16,6 @@ def load_patients():
         phone = '3016669999'
 
         print(Patient.init(doc_id, first, last, "", image, email, phone).to_json())
-
 
 
 if __name__ == '__main__':
