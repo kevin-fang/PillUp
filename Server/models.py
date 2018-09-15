@@ -86,7 +86,7 @@ class Doctor(Document):
 
     @property
     def patients(self):
-        return [Patient.objects.filter(doctor_id=self.id)]
+        return Patient.objects.filter(doctor_id=self.id).all()
 
     @classmethod
     def init(cls, first_name, last_name, medical_school,

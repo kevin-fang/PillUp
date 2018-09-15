@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, abort
 from models import *
+from pprint import pprint
 
 mod = Blueprint(__name__, 'routes')
 
@@ -26,7 +27,13 @@ def get_doctor(id):
 
 @mod.route('/doctor/<id>/patients', methods=['GET'])
 def get_doctor_patients(id):
-    return jsonify(x.to_json() for x in Patient.objects.filter(id=id).first().patients)
+
+    doc = Doctor.objects.filter(id=id).first()
+    if not doc:
+        abort(404)
+
+    patients = list(doc.patients)
+    return jsonify([x.to_json() for x in patients])
 
 
 @mod.route('/doctor', methods=['POST'])
@@ -83,5 +90,8 @@ def post_medicine(id):
     return jsonify(patient.to_json(True))
 
 
+@mod.route('/webhook', methods=['GET', 'POST'])
+def webhook():
+    print(request.json)
 
 
