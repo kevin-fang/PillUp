@@ -107,7 +107,7 @@ class Doctor(Document):
         }
 
         if patients:
-            doc["patients"]: [x.to_json() for x in self.patients]
+            doc["patients"] = [x.to_json() for x in self.patients]
 
         return doc
 
