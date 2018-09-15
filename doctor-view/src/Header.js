@@ -118,7 +118,7 @@ export default class Header extends React.Component {
 						Welcome
 					</Typography>*/}
 					<Typography gutterBottom variant="headline" component="h2">
-						Welcome, Doctor Shayan
+						Welcome, Doctor Sun
 					</Typography>
 					<Typography component="p">
 						Johns Hopkins Hospital
@@ -129,6 +129,7 @@ export default class Header extends React.Component {
 
 		return (
 			<div>
+				{/* Create material design app bar */}
 				<AppBar>
 					<Toolbar>
 						<IconButton color="inherit" 
