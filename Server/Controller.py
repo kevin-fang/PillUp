@@ -27,7 +27,7 @@ def refill_broadcast(user, medicine):
 
     content = f'Please make sure to refill cartridge #{medicine.cartridge} as soon as you can'
     notification = Notification().add_content('en', content)
-    notification.add_heading('en', f'You are out of {name}')
+    notification.add_heading('en', f'You are out of {medicine.name}')
 
     target = TargetDevice().include_player_ids(user.notification_tokens)
     notification.set_target_device(target)

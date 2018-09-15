@@ -103,8 +103,54 @@ def refill_medicine(id, medicine_id):
     return jsonify(patient.to_json(True))
 
 
+@mod.route('/patient/<id>/medicine/<medicine_id>/dispense', methods=['POST'])
+def dispense_medicine(id, medicine_id):
+
+    patient = Patient.objects.filter(id=id).first()
+    if not patient:
+        abort(404)
+
+    for medicine in patient.medicine:
+        if medicine.id == medicine_id:
+
+            if medicine.can_dispense():
+                patient.dispense(medicine)
+                medicine.dispensed()
+            else:
+                patient.request_refill(medicine)
+            patient.save()
+            break
+
+    patient.save()
+    return jsonify(patient.to_json(True))
+
+
 @mod.route('/webhook', methods=['GET', 'POST'])
 def webhook():
     print(request.json)
 
 
+@mod.route('/patient/<id>/notification', methods=['POST'])
+def add_patient_notification(id):
+
+    patient = Patient.objects.filter(id=id).first()
+    if not patient:
+        abort(404)
+
+    patient.notification.append(request.json['player_id'])
+    patient.save()
+
+    return jsonify(ok=True)
+
+
+@mod.route('/doctor/<id>/notification', methods=['POST'])
+def add_doctor_notification(id):
+
+    doctor = Doctor.objects.filter(id=id).first()
+    if not doctor:
+        abort(404)
+
+    doctor.notification.append(request.json['player_id'])
+    doctor.save()
+
+    return jsonify(ok=True)

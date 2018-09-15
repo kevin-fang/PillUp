@@ -4,8 +4,10 @@ import json
 
 
 @Notification.notify_on('dispense')
-def dispense(data):
+def dispense(patient, medicine):
     try:
+        data = patient.to_json()
+        data['medicine'] = medicine.to_json()
         data = json.dumps(data)
         socketio.emit('dispense', data, broadcast=True, namespace='/stream')
     except:
@@ -13,8 +15,10 @@ def dispense(data):
 
 
 @Notification.notify_on('refill')
-def dispense(data):
+def dispense(patient, medicine):
     try:
+        data = patient.to_json()
+        data['medicine'] = medicine.to_json()
         data = json.dumps(data)
         socketio.emit('refill', data, broadcast=True, namespace='/stream')
     except:

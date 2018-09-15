@@ -86,6 +86,7 @@ class Doctor(Document):
     medical_school = StringField()
     specialty = StringField()
     profile_pic = StringField()
+    notification = ListField(StringField())
 
     @property
     def patients(self):
@@ -101,6 +102,7 @@ class Doctor(Document):
         temp.medical_school = medical_school
         temp.specialty = specialty
         temp.profile_pic = profile_pic
+        temp.notification = []
         return temp
 
     def to_json(self, patients=False):
@@ -129,6 +131,7 @@ class Patient(Document):
     profile_pic = StringField()
     email = StringField()
     phone = StringField()
+    notification = ListField(StringField())
 
     medicine = EmbeddedDocumentListField(Medicine)
     medicine_status = EmbeddedDocumentField(MedicineStatus)
@@ -145,6 +148,7 @@ class Patient(Document):
         temp.profile_pic = profile_pic
         temp.email = email
         temp.phone = phone
+        temp.notification = []
         return temp
 
     @classmethod
