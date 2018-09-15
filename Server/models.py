@@ -1,4 +1,6 @@
 from mongoengine import *
+from utilities import random_str
+from time import time
 
 
 class Medicine(EmbeddedDocument):
@@ -9,22 +11,46 @@ class Medicine(EmbeddedDocument):
     rx_date = FloatField()
     every = FloatField()
     cartridge = IntField()
+    last_dispense = FloatField()
+    count = IntField()
 
     @classmethod
-    def init(cls, name, description, side_effects, cartridge):
+    def init(cls, name, description, side_effects, every, cartridge, count):
         temp = cls()
         temp.name = name
         temp.description = description
         temp.side_effects = side_effects
+        temp.every = every
         temp.cartridge = cartridge
+        temp.last_dispense = time()
+        temp.rx_date = time()
+        temp.count = count
         return temp
 
     def to_json(self):
         return {
             "name": self.name,
             "description": self.description,
-            "side_effects": self.side_effects
+            "side_effects": self.side_effects,
+            "count": self.count,
+            "every": self.every,
+            "rx_date": self.rx_date,
+            "last_dispense": self.last_dispense,
+            "cartridge": self.cartridge
         }
+
+    def add_pills(self, count):
+        self.count += count
+
+    def should_dispense(self):
+        return time() - self.last_dispense > self.every
+
+    def can_dispense(self):
+        return self.count >= 1
+
+    def dispensed(self):
+        self.last_dispense = time()
+        self.count -= 1
 
 
 class MedicineStatus(EmbeddedDocument):
@@ -51,7 +77,7 @@ class MedicineStatus(EmbeddedDocument):
 
 class Doctor(Document):
 
-    id = StringField()
+    id = StringField(primary_key=True)
     first_name = StringField()
     last_name = StringField()
     medical_school = StringField()
@@ -64,6 +90,7 @@ class Doctor(Document):
     @classmethod
     def init(cls, first_name, last_name, medical_school, specialty):
         temp = cls()
+        temp.id = random_str()
         temp.first_name = first_name
         temp.last_name = last_name
         temp.medical_school = medical_school
@@ -87,7 +114,7 @@ class Doctor(Document):
 
 class Patient(Document):
 
-    id = StringField()
+    id = StringField(primary_key=True)
     doctor_id = StringField()
     first_name = StringField()
     last_name = StringField()
@@ -96,13 +123,14 @@ class Patient(Document):
     email = StringField()
     phone = StringField()
 
-    medicine = EmbeddedDocumentListField(Medicine())
-    medicine_status = EmbeddedDocumentField(MedicineStatus())
+    medicine = EmbeddedDocumentListField(Medicine)
+    medicine_status = EmbeddedDocumentField(MedicineStatus)
 
     @classmethod
     def init(cls, doctor_id, first_name, last_name, address,
              profile_pic, email, phone):
         temp = cls()
+        temp.id = random_str()
         temp.doctor_id = doctor_id
         temp.first_name = first_name
         temp.last_name = last_name

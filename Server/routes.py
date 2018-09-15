@@ -14,6 +14,21 @@ def get_patient(id):
     return jsonify(Patient.objects.filter(id=id).first().to_json(True))
 
 
+@mod.route('/doctor/all', methods=['GET'])
+def get_doctors():
+    return jsonify([x.to_json() for x in Doctor.objects])
+
+
+@mod.route('/doctors/<id>', methods=['GET'])
+def get_doctor(id):
+    return jsonify(Patient.objects.filter(id=id).first().to_json())
+
+
+@mod.route('/doctors/<id>/patients', methods=['GET'])
+def get_doctor_patients(id):
+    return jsonify(x.to_json() for x in Patient.objects.filter(id=id).first().patients)
+
+
 @mod.route('/patient', methods=['POST'])
 def post_patient():
 
@@ -33,7 +48,7 @@ def post_patient():
 
 
 @mod.route('/patient/<id>/medicine', methods=['POST'])
-def post_medicine():
+def post_medicine(id):
 
     json = request.json()
     name = json['name']
@@ -41,9 +56,15 @@ def post_medicine():
     side_effects = json['side_effects']
     every = json['every']
     cartridge = json['cartridge']
+    count = json['count']
 
+    patient = Patient.objects.filter(id=id).first()
+    medicine = Medicine.init(name, description, side_effects, every, cartridge, count)
 
+    patient.medicine.append(medicine)
+    patient.save()
 
+    return jsonify(patient.to_json(True))
 
 
 
