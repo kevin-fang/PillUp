@@ -47,9 +47,9 @@ void loop() {
   if(distance < 7){
     
 //      digitalWrite(pomp, HIGH);
-      myservo.write(45);
+      myservo.write(50);
       delay(1000);                      
-      myservo.write(-45);
+      myservo.write(-50);
       delay(1000); 
       
       Serial.println("STOP");
