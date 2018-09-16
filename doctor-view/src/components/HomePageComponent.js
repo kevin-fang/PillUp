@@ -17,6 +17,7 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutlined'
+import SearchIcon from '@material-ui/icons/Search'
 
 // dialog imports
 import Dialog from '@material-ui/core/Dialog'
@@ -65,23 +66,26 @@ export class HomePageComponent extends React.Component {
 		this.state = {
 			contactMessage: "",
 			patientsLoaded: false,
+			searchTerm: "",
 			newUser: {}
 		}
 	}
 
 	async componentWillMount(props) {
-		let data = await GetPatients()
-		this.patients = data
-		this.setState({
-			patientsLoaded: true
-		})
+		await this.refresh()
 	}
 
 	async refresh() {
-		let data = await GetPatients()
+		let data = await GetPatients(this.state.searchTerm)
 		this.patients = data
 		this.setState({
 			patientsLoaded: true
+		}, () => {
+			if (this.patients.length == 0) {
+				this.setState({
+					searchTerm: ""
+				}, () => {this.refresh()})
+			}
 		})
 	}
 	
@@ -145,8 +149,6 @@ export class HomePageComponent extends React.Component {
 					<Button size='small' 
 						onClick={async () => {
 							try {
-								console.log(prescription.id)
-								console.log(patient)
 								let response = await DeleteMedicine(patient.id, prescription)
 								this.setState({
 									[patient.id]: true
@@ -154,8 +156,7 @@ export class HomePageComponent extends React.Component {
 									this.refresh()
 								})
 							} catch (err) {
-								console.log(err)
-								alert(err)
+								throw err
 							}
 						}} 
 						style={{}}>Delete</Button>
@@ -381,7 +382,7 @@ export class HomePageComponent extends React.Component {
 	newPatientDialog = () => {
 		return (
 			<Dialog
-				open={this.state.addPatient}
+				open={this.state.addPatient ? true : false}
 				TransitionComponent={Transition}
 				contentstyle={{minWidth: 1000, justifyContent: 'center'}}
 				onClose={() => this.setState({addPatient: false})}
@@ -495,14 +496,12 @@ export class HomePageComponent extends React.Component {
 			paddingLeft: 0,
 			fontSize: 40, 
 			height: "100%", 
-			fontColor: '#FF0000',
-			backgroundColor: "#e6eeff",
+			fontColor: '#FF0000'
 		}
 		if (this.state.patientsLoaded) {
 			return (
 				<div>
 					<div style={patientListStyle}>
-						Patient Statuses
 						<div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', flexDirection: 'row', padding: 8}}>
 							{
 								this.patients.map(this.generatePatientCard)
@@ -522,6 +521,29 @@ export class HomePageComponent extends React.Component {
 					{
 						this.newPatientDialog()
 					}
+					<Dialog
+						open={this.state.search ? true : false}>
+						<DialogContent>
+							<TextField
+								style={{width: "100%", minWidth: 300}}
+								label="Search For Patient"
+								value={this.state.searchTerm}
+								onChange={(e) => {
+									this.setState({
+										searchTerm: e.target.value
+									})
+								}}
+							/>
+						</DialogContent>
+						<Button color='primary' onClick={async () => {
+							await this.refresh()
+							this.setState({search: false})
+						}}
+							>
+							Submit
+						</Button>
+					</Dialog>
+
 					<Button variant='extendedFab' color='secondary' style={{position: 'fixed', bottom: 20, right: 20}} onClick={() => {
 						this.setState({
 							addPatient: true
@@ -529,6 +551,14 @@ export class HomePageComponent extends React.Component {
 					}}>
 						<AddCircleOutlineIcon style={{marginRight: 5, marginTop: 4}} />
 						Patient
+					</Button>
+					<Button variant='extendedFab' color='primary' style={{position: 'fixed', bottom: 80, right: 20}} onClick={() => {
+						this.setState({
+							search: true
+						})
+					}}>
+						<SearchIcon />
+						Search
 					</Button>
 				</div>
 			)
