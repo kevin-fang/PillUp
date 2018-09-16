@@ -33,6 +33,8 @@ class NotificationCenter(object):
         self.observers[key].append(method)
 
     def post_notification(self, key, async=False, *args, **kwargs):
+        print(key, kwargs)
+        print(self.observers)
         """
         push a notification and call all the observers
         with the same key.
