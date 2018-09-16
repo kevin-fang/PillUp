@@ -200,3 +200,19 @@ def search_patient():
 
     query = request.args.get('user')
     return jsonify([x.to_json(True) for x in Patient.search(query)])
+
+
+@mod.route('/patient/<id>/medicine/<medicine_id>/refill', methods=['POST'])
+def refill_medicine(id, medicine_id):
+
+    patient = Patient.objects.filter(id=id).first()
+    if not patient:
+        abort(404)
+
+    for medicine in patient.medicine:
+        if medicine.id == medicine_id:
+            patient.request_refill(medicine)
+            break
+
+    patient.save()
+    return jsonify(patient.to_json(True))
