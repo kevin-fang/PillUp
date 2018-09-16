@@ -133,6 +133,7 @@ extension ViewController {
         chartView.rightAxis.drawLabelsEnabled = false
         chartView.leftAxis.drawGridLinesEnabled = false
         chartView.rightAxis.drawGridLinesEnabled = false
+
         chartView.drawBordersEnabled = false
         chartView.legend.enabled = false
         //Change the background of the charts
@@ -142,6 +143,18 @@ extension ViewController {
         chartView.borderColor = .clear
         chartView.fitBars = false
         
+        chartView.drawValueAboveBarEnabled = false
+        
+        YAxis.setAccessibilityElementsHidden(true)
+        chartView.leftAxis.setValue(value: "23", forKeyPath: "1")
+
+
+        
+        
+        chartView.chartDescription?.text = ""
+//        lineChartData.setDrawValues(false)
+
+        
         
        
     }
@@ -150,7 +163,7 @@ extension ViewController {
     func setChart() {
         
         let unitsSold = [10, 12, 3, 5]
-        let months = ["C1", "C2", "C3", "C4"]
+        let months = ["", "", "", ""]
         let test = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         
         var dataEntries: [BarChartDataEntry] = []
@@ -161,7 +174,7 @@ extension ViewController {
             dataEntries.append(dataEntry)
         }
         
-        let chartDataSet = BarChartDataSet(values: dataEntries, label: "Cartridge")
+        let chartDataSet = BarChartDataSet(values: dataEntries, label: " ")
         chartDataSet.colors = [#colorLiteral(red: 0.9019607843, green: 0.9215686275, blue: 0.1098039216, alpha: 1), #colorLiteral(red: 0.5058823529, green: 0.737254902, blue: 0.1490196078, alpha: 1), #colorLiteral(red: 0.2784313725, green: 0.8274509804, blue: 0.8196078431, alpha: 1), #colorLiteral(red: 0.9294117647, green: 0.08437372349, blue: 0.2941176471, alpha: 1)]
         let chartData = BarChartData(dataSet: chartDataSet)
         
