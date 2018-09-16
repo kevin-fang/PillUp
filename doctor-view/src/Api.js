@@ -2,8 +2,8 @@ import axios from 'axios'
 let config = require('./config.json')
 
 // get patient list
-export const GetPatients = async () => {
-	let request = config.ip + "/patient/all"
+export const GetPatients = async (query) => {
+	let request = `${config.ip}/patient/search?user=${query}`
 	console.log(request)
 	try {
 		let response = await axios.get(request)
@@ -29,6 +29,17 @@ export const DeleteMedicine = async (id, medicine) => {
 	let request = `${config.ip}/patient/${id}/medicine/${medicine.id}`
 	try {
 		let response = await axios.delete(request, medicine)
+		return response
+	} catch (err) {
+		throw err
+	}
+}
+
+//api.pillup.org/patient/search?user=Whi
+export const Search = async(query) => {
+	let request = `${config.ip}/search?user=${query}`
+	try {
+		let response = await axios.get(request)
 		return response
 	} catch (err) {
 		throw err

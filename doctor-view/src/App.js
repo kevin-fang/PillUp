@@ -4,12 +4,13 @@ import Header from './Header.js'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'; // v1.x
 
+import { Search } from './Api.js'
+
 const muiTheme = createMuiTheme({
 
 })
 
 class App extends Component {
-	
 
 	render() {
 		return (
