@@ -142,7 +142,6 @@ export default class Header extends React.Component {
 						<Typography variant="title" color="inherit">
 							PillUp	
 						</Typography>
-						<Button color="inherit" style={{position: 'absolute', right: 8}}>Sort</Button>
 					</Toolbar>
 				</AppBar>
 				<SwipeableDrawer

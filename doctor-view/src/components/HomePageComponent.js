@@ -16,6 +16,8 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutlined'
+
 // dialog imports
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -24,7 +26,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Slide from '@material-ui/core/Slide'
 
-import { GetPatients, PostMedicine, DeleteMedicine } from '../Api.js'
+import { GetPatients, PostMedicine, DeleteMedicine, AddPatient } from '../Api.js'
 
 let sampleData = require('../patients.json')
 sampleData.patients.sort((a, b) => {
@@ -62,7 +64,8 @@ export class HomePageComponent extends React.Component {
 		super(props)
 		this.state = {
 			contactMessage: "",
-			patientsLoaded: false
+			patientsLoaded: false,
+			newUser: {}
 		}
 	}
 
@@ -128,11 +131,14 @@ export class HomePageComponent extends React.Component {
 
 	// generate a prescription card for the patient dialog
 	generatePrescription = (patient, prescription) => {
+		var d = new Date(0)
+		d.setUTCSeconds(prescription.last_dispense)
+
 		return (
 			<Card key={prescription.id} style={{margin: 10, minWidth: 250, padding: 0}}>
 				<CardContent style={{}}>
 					<div style={{}}>
-						{prescription.name} | {prescription.count} pill(s) left | {prescription.description} | Every {prescription.every} s
+						{prescription.name} | {prescription.count} pill(s) left | {prescription.description} | Last dispensed: {d.toString()}
 					</div>
 				</CardContent>
 				<CardActions>
@@ -219,7 +225,7 @@ export class HomePageComponent extends React.Component {
 							/>
 							<TextField
 								style={{width: "100%", marginTop: 10}}
-								label="# of Capsules"
+								label="# of total pills"
 								onChange={(e) => {
 									this.setState({
 										[GetKey(patient, keys.MEDICINE_COUNT)]: e.target.value
@@ -344,6 +350,127 @@ export class HomePageComponent extends React.Component {
 		)
 	}
 
+/*
+	{
+	    "first_name": "string",
+	    "last_name": "string",
+	    "doctor_id": "string",
+	    "address": "string",
+	    "email": "string",
+	    "phone": "string",
+	    "profile_pic": "url",
+	}
+*/
+	newPatientDialog = () => {
+		return (
+			<Dialog
+				open={this.state.addPatient}
+				TransitionComponent={Transition}
+				contentstyle={{minWidth: 1000, justifyContent: 'center'}}
+				onClose={() => this.setState({addPatient: false})}
+				>
+				<DialogTitle>
+					New Patient
+				</DialogTitle>
+				<DialogContent>
+					<TextField
+						style={{width: "100%"}}
+						label="First Name"
+						onChange={(e) => {
+							const newUser = this.state.newUser
+							newUser.first_name = e.target.value
+							this.setState({
+								newUser,
+							})
+						}}
+					/>
+					<TextField
+						style={{width: "100%"}}
+						label="Last Name"
+						onChange={(e) => {
+							const newUser = this.state.newUser
+							newUser.last_name = e.target.value
+							this.setState({
+								newUser,
+							})
+						}}
+					/>
+					<TextField
+						style={{width: "100%"}}
+						label="Doctor ID"
+						onChange={(e) => {
+							const newUser = this.state.newUser
+							newUser.doctor_id = e.target.value
+							this.setState({
+								newUser,
+							})
+						}}
+					/>
+					<TextField
+						style={{width: "100%"}}
+						label="Address"
+						onChange={(e) => {
+							const newUser = this.state.newUser
+							newUser.address = e.target.value
+							this.setState({
+								newUser,
+							})
+						}}
+					/>
+					<TextField
+						style={{width: "100%"}}
+						label="Email"
+						onChange={(e) => {
+							const newUser = this.state.newUser
+							newUser.email = e.target.value
+							this.setState({
+								newUser,
+							})
+						}}
+					/>
+					<TextField
+						style={{width: "100%"}}
+						label="Phone"
+						onChange={(e) => {
+							const newUser = this.state.newUser
+							newUser.phone = e.target.value
+							this.setState({
+								newUser,
+							})
+						}}
+					/>
+
+					<TextField
+						style={{width: "100%"}}
+						label="Profile Picture (URL)"
+						onChange={(e) => {
+							const newUser = this.state.newUser
+							newUser.profile_pic = e.target.value
+							this.setState({
+								newUser,
+							})
+						}}
+					/>
+				</DialogContent>
+				<Button color='primary' onClick={async (e) => {
+					try {
+						let response = await AddPatient(this.state.newUser)
+						this.setState({addPatient: false})
+					} catch (err) {
+						alert(err)
+					}
+				}}>
+					Submit
+				</Button>
+				<Button color='secondary' 
+					onClick={(e) => {
+						this.setState({addPatient: false})
+				}}>
+					Cancel
+				</Button>
+			</Dialog>
+		)
+	}
 
 	render() {
 		let patientListStyle = {
@@ -375,6 +502,17 @@ export class HomePageComponent extends React.Component {
 					{
 						this.patients.map(this.generateMedicineDialog)
 					}
+					{
+						this.newPatientDialog()
+					}
+					<Button variant='extendedFab' color='secondary' style={{position: 'fixed', bottom: 20, right: 20}} onClick={() => {
+						this.setState({
+							addPatient: true
+						})
+					}}>
+						<AddCircleOutlineIcon style={{marginRight: 5, marginTop: 4}} />
+						Patient
+					</Button>
 				</div>
 			)
 		} else {

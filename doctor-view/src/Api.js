@@ -1,6 +1,7 @@
 import axios from 'axios'
 let config = require('./config.json')
 
+// get patient list
 export const GetPatients = async () => {
 	let request = config.ip + "/patient/all"
 	console.log(request)
@@ -12,6 +13,7 @@ export const GetPatients = async () => {
 	}
 }
 
+// add a new medicine
 export const PostMedicine = async (id, medicine) => {
 	let request = `${config.ip}/patient/${id}/medicine`
 	try {
@@ -22,10 +24,35 @@ export const PostMedicine = async (id, medicine) => {
 	}
 }
 
+// delete a medicine
 export const DeleteMedicine = async (id, medicine) => {
 	let request = `${config.ip}/patient/${id}/medicine/${medicine.id}`
 	try {
 		let response = await axios.delete(request, medicine)
+		return response
+	} catch (err) {
+		throw err
+	}
+}
+
+// add patient
+/*
+	{
+	    "first_name": "string",
+	    "last_name": "string",
+	    "doctor_id": "string",
+	    "address": "string",
+	    "email": "string",
+	    "phone": "string",
+	    "profile_pic": "url",
+	}
+*/
+
+export const AddPatient = async (patientInfo) => {
+	let request = `${config.ip}/patient`
+	alert(JSON.stringify(patientInfo))
+	try {
+		let response = await axios.post(request, patientInfo)
 		return response
 	} catch (err) {
 		throw err
