@@ -16,6 +16,6 @@ class Streamer(BaseNamespace):
         print(data)
 
 
-socket = SocketIO('api.pillup.org', 80)
+socket = SocketIO('0.0.0.0', 8080)
 stream_namespace = socket.define(Streamer, '/stream')
 socket.wait()

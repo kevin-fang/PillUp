@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Charts
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tableView : UITableView!
     var profileImageView : UIImageView!
@@ -26,13 +26,32 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.setupUI()
         self.layoutUI()
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
 
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return CTableViewCell()
+    }
 
 }
 
@@ -99,6 +118,9 @@ extension ViewController {
             make.height.equalTo(284)
         }
         
+        tableView.backgroundView?.backgroundColor = .clear
+        tableView.backgroundColor = .clear
+        
         myPillsLabel.snp.makeConstraints { make in
             make.left.equalTo(todayLabel.snp.left)
             make.top.equalTo(tableView.snp.bottom).offset(15)
@@ -137,16 +159,18 @@ extension ViewController {
         chartView.drawBordersEnabled = false
         chartView.legend.enabled = false
         //Change the background of the charts
-        chartView.drawBarShadowEnabled = true
+//        chartView.drawBarShadowEnabled = true
         chartView.drawBordersEnabled = false
         chartView.minOffset = 0
         chartView.borderColor = .clear
         chartView.fitBars = false
+        chartView.leftAxis.axisMinimum = 0.0
+        chartView.rightAxis.axisMinimum = 0.0
+        chartView.maxVisibleCount = 0
         
         chartView.drawValueAboveBarEnabled = false
         
         YAxis.setAccessibilityElementsHidden(true)
-        chartView.leftAxis.setValue(value: "23", forKeyPath: "1")
 
 
         
@@ -157,14 +181,16 @@ extension ViewController {
         
         
        
+
     }
 
 
     func setChart() {
         
         let unitsSold = [10, 12, 3, 5]
-        let months = ["", "", "", ""]
-        let test = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+        let months = ["C1", "C2", "C3", "C4"]
+        let test = [1, 2, 3, 4]
         
         var dataEntries: [BarChartDataEntry] = []
         
@@ -174,7 +200,12 @@ extension ViewController {
             dataEntries.append(dataEntry)
         }
         
-        let chartDataSet = BarChartDataSet(values: dataEntries, label: " ")
+
+        let chartDataSet = BarChartDataSet(values: dataEntries, label: "Cartridge")
+        chartDataSet.drawValuesEnabled = false
+        chartDataSet.barBorderWidth = 0
+        chartDataSet.valueTextColor = .clear
+    
         chartDataSet.colors = [#colorLiteral(red: 0.9019607843, green: 0.9215686275, blue: 0.1098039216, alpha: 1), #colorLiteral(red: 0.5058823529, green: 0.737254902, blue: 0.1490196078, alpha: 1), #colorLiteral(red: 0.2784313725, green: 0.8274509804, blue: 0.8196078431, alpha: 1), #colorLiteral(red: 0.9294117647, green: 0.08437372349, blue: 0.2941176471, alpha: 1)]
         let chartData = BarChartData(dataSet: chartDataSet)
         
