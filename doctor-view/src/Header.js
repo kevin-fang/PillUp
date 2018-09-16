@@ -80,6 +80,7 @@ export default class Header extends React.Component {
 						<ListItemText primary="Home" />
 					</ListItem>
 				</Link>
+				{/*
 				<Link to='/patient' style={noLinkUnderline}>
 					<ListItem button>
 						<ListItemIcon>
@@ -88,6 +89,7 @@ export default class Header extends React.Component {
 						<ListItemText primary="Patient" />
 					</ListItem>
 				</Link>
+				*/}	
 				<Link to='/about' style={noLinkUnderline}>
 					<ListItem button>
 						<ListItemIcon>

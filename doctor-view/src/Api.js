@@ -48,6 +48,16 @@ export const DeleteMedicine = async (id, medicine) => {
 	}
 */
 
+export const Refill = async (patientId, medicineId, count) => {
+	let request = `${config.ip}/patient/${patientId}/medicine/${medicineId}/refill`
+	try {
+		let response = await axios.post(request, {count: count})
+		return response
+	} catch (err) {
+		throw err
+	}
+}
+
 export const AddPatient = async (patientInfo) => {
 	let request = `${config.ip}/patient`
 	alert(JSON.stringify(patientInfo))

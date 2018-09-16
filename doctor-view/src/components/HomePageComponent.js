@@ -26,7 +26,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Slide from '@material-ui/core/Slide'
 
-import { GetPatients, PostMedicine, DeleteMedicine, AddPatient } from '../Api.js'
+import { GetPatients, PostMedicine, DeleteMedicine, AddPatient, Refill } from '../Api.js'
 
 let sampleData = require('../patients.json')
 sampleData.patients.sort((a, b) => {
@@ -159,6 +159,23 @@ export class HomePageComponent extends React.Component {
 							}
 						}} 
 						style={{}}>Delete</Button>
+					<Button size='small' 
+						onClick={async () => {
+							try {
+								let response = await Refill(patient.id, prescription.id, 100)
+								this.setState({
+									[patient.id]: true
+								}, () => {
+									this.refresh()
+								})
+							} catch (err) {
+								console.log(err)
+								alert(err)
+							}
+						}} 
+						style={{}}>
+						Refill
+					</Button>
 				</CardActions>
 			</Card>
 		)
@@ -293,7 +310,7 @@ export class HomePageComponent extends React.Component {
 					<Button color='primary' onClick={() => this.setState({[GetKey(patient, keys.ADD_MEDICINE)]: true})}>
 						Add Medicine
 					</Button>
-					<Button color='primary' onClick={() => this.setState({[patient.id]: false})}>
+					<Button color='secondary' onClick={() => this.setState({[patient.id]: false})}>
 						Dismiss
 					</Button>
 				</Dialog>
