@@ -153,6 +153,14 @@ class Patient(Document):
         return temp
 
     @classmethod
+    def search(cls, name):
+        result = []
+        for patient in Patient.objects:
+            if name in patient.first_name or name in patient.last_name:
+                result.append(patient)
+        return result
+
+    @classmethod
     def query(cls, *args, **kwargs):
         return [cls.objects.filter(*args, **kwargs)]
 

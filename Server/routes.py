@@ -193,3 +193,10 @@ def get_specific_patient_medicine(id, medicine_id):
             return jsonify(medicine.to_json())
 
     abort(404)
+
+
+@mod.route('/patient/search', methods=['GET'])
+def search_patient():
+
+    query = request.args.get('user')
+    return jsonify([x.to_json(True) for x in Patient.search(query)])
