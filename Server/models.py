@@ -155,8 +155,9 @@ class Patient(Document):
     @classmethod
     def search(cls, name):
         result = []
+        name = name.lower()
         for patient in Patient.objects:
-            if name in patient.first_name or name in patient.last_name:
+            if name in patient.first_name.lower() or name in patient.last_name.lower():
                 result.append(patient)
         return result
 

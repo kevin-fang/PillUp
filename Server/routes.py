@@ -202,7 +202,7 @@ def search_patient():
     return jsonify([x.to_json(True) for x in Patient.search(query)])
 
 
-@mod.route('/patient/<id>/medicine/<medicine_id>/refill', methods=['POST'])
+@mod.route('/patient/<id>/medicine/<medicine_id>/refill', methods=['GET'])
 def req_refill_medicine(id, medicine_id):
 
     patient = Patient.objects.filter(id=id).first()
