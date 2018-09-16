@@ -9,21 +9,6 @@ import re
 # todo Grouping and Collapsing: https://documentation.onesignal.com/reference#section-grouping-collapsing
 
 
-class _LangCodes:
-    """LangCodes Class"""
-
-    def load(self, filename):
-        """ loads lang codes from json file """
-        data = json.loads(open(filename, 'r').read())
-        for key, info in data.items():
-            setattr(self, info['name'], key)
-        return self
-
-
-# load language codes from json file
-LangCodes = _LangCodes().load('lang_codes.json')
-
-
 class Relation(Enum):
     GreaterThan = '>'
     LowerThan = '<'

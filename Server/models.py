@@ -32,6 +32,7 @@ class Medicine(EmbeddedDocument):
 
     def to_json(self):
         return {
+            "id": self.id,
             "name": self.name,
             "description": self.description,
             "side_effects": self.side_effects,

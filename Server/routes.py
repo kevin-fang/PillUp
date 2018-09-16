@@ -76,9 +76,9 @@ def post_medicine(id):
     name = json['name']
     description = json['description']
     side_effects = json['side_effects']
-    every = json['every']
-    cartridge = json['cartridge']
-    count = json['count']
+    every = float(json['every'])
+    cartridge = int(json['cartridge'])
+    count = int(json['count'])
 
     patient = Patient.objects.filter(id=id).first()
     medicine = Medicine.init(name, description, side_effects, every, cartridge, count)
@@ -154,3 +154,42 @@ def add_doctor_notification(id):
     doctor.save()
 
     return jsonify(ok=True)
+
+##
+
+
+@mod.route('/patient/<id>/medicine', methods=['GET'])
+def get_patient_medicine(id):
+
+    patient = Patient.objects.filter(id=id).first()
+    if not patient:
+        abort(404)
+
+    return jsonify([x.to_json() for x in patient.medicine])
+
+
+@mod.route('/patient/<id>/medicine/<medicine_id>', methods=['DELETE'])
+def delete_patient_medicine(id, medicine_id):
+
+    patient = Patient.objects.filter(id=id).first()
+    if not patient:
+        abort(404)
+
+    patient.medicine = list(filter(lambda x: x.id != medicine_id, patient.medicine))
+    patient.save()
+
+    return jsonify([x.to_json() for x in patient.medicine])
+
+
+@mod.route('/patient/<id>/medicine/<medicine_id>', methods=['GET'])
+def get_specific_patient_medicine(id, medicine_id):
+
+    patient = Patient.objects.filter(id=id).first()
+    if not patient:
+        abort(404)
+
+    for medicine in patient.medicine:
+        if medicine.id == medicine_id:
+            return jsonify(medicine.to_json())
+
+    abort(404)

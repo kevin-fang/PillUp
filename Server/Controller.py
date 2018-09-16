@@ -1,7 +1,24 @@
 from models import *
 from SignalPy import *
+from threading import Thread
+from time import sleep
 
-one_signal = OneSignal(app_id=None, api_key=None)
+one_signal = OneSignal(app_id="1ea6fd61-7824-49ef-9018-96b51491a914", api_key=None)
+
+
+def dispense_loop():
+
+    while True:
+        try:
+            load_and_dispense()
+            sleep(10)
+        except:
+            pass
+
+
+def main_controller():
+
+    Thread(target=dispense_loop).start()
 
 
 def process_medicine(patient):
