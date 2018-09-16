@@ -17,8 +17,8 @@ class CTableViewCell: UITableViewCell {
     var time: UILabel!
     var button: UIButton!
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         iconView = UIImageView()
         title = UILabel()
@@ -33,7 +33,7 @@ class CTableViewCell: UITableViewCell {
         self.addSubview(button)
         
         iconView.snp.makeConstraints { make in
-            make.left.top.bottom.equalTo(25)
+            make.left.equalTo(25)
             make.centerY.equalToSuperview()
             make.height.width.equalTo(33)
         }
@@ -45,40 +45,58 @@ class CTableViewCell: UITableViewCell {
         
         desc.snp.makeConstraints { make in
             make.left.equalTo(title.snp.left)
-            make.top.equalTo(title.snp.bottom).inset(5)
+            make.top.equalTo(title.snp.bottom)
         }
         
         time.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(25)
+            make.right.equalToSuperview().offset(-25)
             make.centerY.equalTo(title)
         }
         
         button.snp.makeConstraints { make in
             make.right.equalTo(time.snp.right)
+            make.width.equalTo(70)
             make.centerY.equalTo(desc.snp.centerY)
         }
         
-        iconView.image = #imageLiteral(resourceName: "Bitmap")
+        button.setImage(#imageLiteral(resourceName: "noun_give_690854"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        
+        iconView.clipsToBounds = true
+        iconView.contentMode = .scaleAspectFit
         title.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         desc.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         time.font = UIFont.systemFont(ofSize: 13, weight: .thin)
+    
         
-        title.text = "Advil"
-        desc.text = "Before your meal"
-        time.text = "12:30PM"
+        self.selectedBackgroundView?.backgroundColor = .clear
+        self.backgroundColor = .clear
         
+        let view = UIView()
+        self.addSubview(view)
+        view.snp.makeConstraints { make in
+            make.left.bottom.right.equalToSuperview()
+            make.height.equalTo(0.3)
+        }
+        view.backgroundColor = .black
+        view.alpha = 0.3
         
     }
     
-    func setup() {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setup(title: String, desc: String, time: String, icon: UIImage) {
+        
+        self.title.text = title
+        self.desc.text = desc
+        self.time.text = time
+        self.iconView.image = icon
         
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    
+
     
     
 }

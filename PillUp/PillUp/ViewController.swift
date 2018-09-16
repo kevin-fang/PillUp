@@ -30,6 +30,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         tableView.delegate = self
         
+        getMe()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,7 +52,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return CTableViewCell()
+        let cell = CTableViewCell.init(style: .default, reuseIdentifier: "test")
+        cell.setup(title: "", desc: "", time: "", icon: #imageLiteral(resourceName: "Bitmap"))
+        return cell
     }
 
 }
@@ -166,6 +170,8 @@ extension ViewController {
         chartView.leftAxis.axisMinimum = 0.0
         chartView.rightAxis.axisMinimum = 0.0
         chartView.maxVisibleCount = 0
+        
+        tableView.separatorStyle = .none
         
     }
 
