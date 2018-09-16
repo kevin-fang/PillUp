@@ -56,7 +56,7 @@ void loop() {
     }
   }
   else{
-    if(!state && distance > 8 )
+    if(!state && distance > 10 && distance < 2000 )
     {
       counterOff++;
   //    printf("Counter off value is %d", counterOff, "\n");
