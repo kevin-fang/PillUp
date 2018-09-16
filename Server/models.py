@@ -181,4 +181,4 @@ class Patient(Document):
     def request_refill(self, medicine):
         data = self.to_json()
         data['medicine'] = medicine.to_json()
-        NC.default().post_notification('refill', data)
+        NC.default().post_notification('refill', medicine=medicine, patient=self)
