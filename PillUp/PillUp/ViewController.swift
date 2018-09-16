@@ -8,7 +8,8 @@
 
 import UIKit
 import SnapKit
-import Charts
+import Alamofire
+//import Charts
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -19,7 +20,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var myPillsLabel : UILabel!
     var addButton : UIButton!
     var myPillsLine : UIView!
-    var chartView : BarChartView!
+    var data = [CTableViewCell]()
+//    var chartView : BarChartView!
     
 
     override func viewDidLoad() {
@@ -30,7 +32,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         tableView.delegate = self
         
-        getMe()
+        let cell1 = CTableViewCell.init(style: .default, reuseIdentifier: "test")
+        cell1.setup(title: "Advil", desc: "Before your meal", time: "11:30AM", image: #imageLiteral(resourceName: "Bitmap"))
+        let cell2 = CTableViewCell.init(style: .default, reuseIdentifier: "test")
+        cell2.setup(title: "Xanax", desc: "Before bed time", time: "9:15PM", image: #imageLiteral(resourceName: "noun_vertical_80648"))
+        data = [cell1, cell2]
         
     }
 
@@ -44,7 +50,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return self.data.count
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
+       
+        let refill = UITableViewRowAction(style: .normal, title: "Refill") { action, index in
+            Alamofire.request("http://api.pillup.org/patient/2vziI7/medicine/0MWzgO/refill", method: .get)
+        }
+        
+        refill.backgroundColor =  #colorLiteral(red: 0.3882352941, green: 0.631372549, blue: 0.7647058824, alpha: 1)
+        
+        let dispense = UITableViewRowAction(style: .normal, title: "Dispense") { action, index in
+            Alamofire.request("http://api.pillup.org/patient/2vziI7/medicine/0MWzgO/dispense", method: .post)
+            self.data.remove(at: index.row)
+            tableView.reloadData()
+        }
+        
+        dispense.backgroundColor =  #colorLiteral(red: 0.8039215686, green: 0.3294117647, blue: 0.2549019608, alpha: 1)
+        return [dispense, refill]
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -52,9 +77,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = CTableViewCell.init(style: .default, reuseIdentifier: "test")
-        cell.setup(title: "", desc: "", time: "", icon: #imageLiteral(resourceName: "Bitmap"))
-        return cell
+        return self.data[indexPath.row]
     }
 
 }
@@ -70,7 +93,7 @@ extension ViewController {
         self.myPillsLabel = UILabel()
         self.addButton = UIButton()
         self.myPillsLine = UIView()
-        self.chartView = BarChartView()
+//        self.chartView = BarChartView()
         
         self.view.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
         self.view.addSubview(tableView)
@@ -80,7 +103,7 @@ extension ViewController {
         self.view.addSubview(myPillsLabel)
         self.view.addSubview(addButton)
         self.view.addSubview(myPillsLine)
-        self.view.addSubview(chartView)
+//        self.view.addSubview(chartView)
      
         
     }
@@ -127,7 +150,7 @@ extension ViewController {
         
         myPillsLabel.snp.makeConstraints { make in
             make.left.equalTo(todayLabel.snp.left)
-            make.top.equalTo(tableView.snp.bottom).offset(15)
+            make.top.equalTo(tableView.snp.bottom).offset(0)
         }
         
         myPillsLabel.font = UIFont.systemFont(ofSize: 28, weight: .medium)
@@ -143,63 +166,72 @@ extension ViewController {
         myPillsLine.alpha = 0.1
         myPillsLine.backgroundColor = #colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1)
         
-        chartView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().offset(-50)
-            make.bottom.equalToSuperview().offset(-20)
-            make.top.equalTo(self.myPillsLine.snp.bottom).inset(-20)
+        let imageView = UIImageView()
+        self.view.addSubview(imageView)
+        imageView.image = #imageLiteral(resourceName: "Group 3")
+        imageView.contentMode = .scaleAspectFit
+        imageView.snp.makeConstraints { make in
+            make.left.right.bottom.equalToSuperview().inset(20)
+            make.top.equalTo(myPillsLine.snp.bottom).inset(-15)
         }
         
-        setChart()
-        chartView.scaleXEnabled = false
-        chartView.scaleYEnabled = false
-        chartView.drawGridBackgroundEnabled = false
-        chartView.xAxis.drawGridLinesEnabled = false
-        chartView.leftAxis.drawLabelsEnabled = false
-        chartView.rightAxis.drawLabelsEnabled = false
-        chartView.leftAxis.drawGridLinesEnabled = false
-        chartView.rightAxis.drawGridLinesEnabled = false
-        chartView.drawBordersEnabled = false
-        chartView.legend.enabled = false
-        //Change the background of the charts
-//        chartView.drawBarShadowEnabled = true
-        chartView.drawBordersEnabled = false
-        chartView.minOffset = 0
-        chartView.borderColor = .clear
-        chartView.fitBars = false
-        chartView.leftAxis.axisMinimum = 0.0
-        chartView.rightAxis.axisMinimum = 0.0
-        chartView.maxVisibleCount = 0
+//        chartView.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.width.equalToSuperview().offset(-50)
+//            make.bottom.equalToSuperview().offset(-20)
+//            make.top.equalTo(self.myPillsLine.snp.bottom).inset(-20)
+//        }
         
-        tableView.separatorStyle = .none
-        
+//        setChart()
+//        chartView.scaleXEnabled = false
+//        chartView.scaleYEnabled = false
+//        chartView.drawGridBackgroundEnabled = false
+//        chartView.xAxis.drawGridLinesEnabled = false
+//        chartView.leftAxis.drawLabelsEnabled = false
+//        chartView.rightAxis.drawLabelsEnabled = false
+//        chartView.leftAxis.drawGridLinesEnabled = false
+//        chartView.rightAxis.drawGridLinesEnabled = false
+//
+//        chartView.drawBordersEnabled = false
+//        chartView.legend.enabled = false
+//        //Change the background of the charts
+////        chartView.drawBarShadowEnabled = true
+//        chartView.drawBordersEnabled = false
+//        chartView.minOffset = 0
+//        chartView.borderColor = .clear
+//        chartView.fitBars = false
+//        chartView.leftAxis.axisMinimum = 0.0
+//        chartView.rightAxis.axisMinimum = 0.0
+//        chartView.maxVisibleCount = 0
+
     }
-
-
-    func setChart() {
-        
-        let unitsSold = [10, 12, 3, 5]
-        let months = ["C1", "C2", "C3", "C4"]
-        let test = [1, 2, 3, 4]
-        
-        var dataEntries: [BarChartDataEntry] = []
-        
-        for i in 0 ..< months.count {
-            let dataEntry = BarChartDataEntry(x: Double(test[i]), y: Double(unitsSold[i]))
-            
-            dataEntries.append(dataEntry)
-        }
-        
-        let chartDataSet = BarChartDataSet(values: dataEntries, label: "Cartridge")
-        chartDataSet.drawValuesEnabled = false
-        chartDataSet.barBorderWidth = 0
-        chartDataSet.valueTextColor = .clear
     
-        chartDataSet.colors = [#colorLiteral(red: 0.9019607843, green: 0.9215686275, blue: 0.1098039216, alpha: 1), #colorLiteral(red: 0.5058823529, green: 0.737254902, blue: 0.1490196078, alpha: 1), #colorLiteral(red: 0.2784313725, green: 0.8274509804, blue: 0.8196078431, alpha: 1), #colorLiteral(red: 0.9294117647, green: 0.08437372349, blue: 0.2941176471, alpha: 1)]
-        let chartData = BarChartData(dataSet: chartDataSet)
-        
-        chartView.data = chartData
-    }
+//    func setChart() {
+//
+//        let unitsSold = [10, 12]
+//
+//        let months = ["C1", "C2"]
+//        let test = [1, 2]
+//
+//        var dataEntries: [BarChartDataEntry] = []
+//
+//        for i in 0 ..< months.count {
+//            let dataEntry = BarChartDataEntry(x: Double(test[i]), y: Double(unitsSold[i]))
+//
+//            dataEntries.append(dataEntry)
+//        }
+//
+//
+//        let chartDataSet = BarChartDataSet(values: dataEntries, label: "Cartridge")
+//        chartDataSet.drawValuesEnabled = false
+//        chartDataSet.barBorderWidth = 0
+//        chartDataSet.valueTextColor = .clear
+//
+//        chartDataSet.colors = [#colorLiteral(red: 0.2784313725, green: 0.8274509804, blue: 0.8196078431, alpha: 1), #colorLiteral(red: 0.9294117647, green: 0.08437372349, blue: 0.2941176471, alpha: 1)]
+//        let chartData = BarChartData(dataSet: chartDataSet)
+//
+//        chartView.data = chartData
+//    }
     
 
 }

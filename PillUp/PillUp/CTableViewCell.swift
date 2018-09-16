@@ -59,7 +59,6 @@ class CTableViewCell: UITableViewCell {
             make.centerY.equalTo(desc.snp.centerY)
         }
         
-        button.setImage(#imageLiteral(resourceName: "noun_give_690854"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         
         iconView.clipsToBounds = true
@@ -68,6 +67,7 @@ class CTableViewCell: UITableViewCell {
         desc.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         time.font = UIFont.systemFont(ofSize: 13, weight: .thin)
     
+        time.textAlignment = .right
         
         self.selectedBackgroundView?.backgroundColor = .clear
         self.backgroundColor = .clear
@@ -87,12 +87,12 @@ class CTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(title: String, desc: String, time: String, icon: UIImage) {
+    func setup(title: String, desc: String, time: String, image: UIImage) {
         
         self.title.text = title
         self.desc.text = desc
         self.time.text = time
-        self.iconView.image = icon
+        self.iconView.image = image
         
     }
     
