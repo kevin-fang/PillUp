@@ -203,7 +203,7 @@ def search_patient():
 
 
 @mod.route('/patient/<id>/medicine/<medicine_id>/refill', methods=['POST'])
-def refill_medicine(id, medicine_id):
+def req_refill_medicine(id, medicine_id):
 
     patient = Patient.objects.filter(id=id).first()
     if not patient:
