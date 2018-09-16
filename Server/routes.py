@@ -6,7 +6,7 @@ mod = Blueprint(__name__, 'routes')
 
 @mod.route('/patient/all', methods=['GET'])
 def get_patients():
-    return jsonify([x.to_json() for x in Patient.objects])
+    return jsonify([x.to_json(True) for x in Patient.objects])
 
 
 @mod.route('/patient/<id>', methods=['GET'])

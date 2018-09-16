@@ -5,6 +5,7 @@ import json
 
 @Notification.notify_on('dispense')
 def dispense(patient, medicine):
+    print('dispensing')
     try:
         data = patient.to_json()
         data['medicine'] = medicine.to_json()
@@ -16,6 +17,7 @@ def dispense(patient, medicine):
 
 @Notification.notify_on('refill')
 def dispense(patient, medicine):
+    print('refill')
     try:
         data = patient.to_json()
         data['medicine'] = medicine.to_json()
