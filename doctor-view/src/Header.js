@@ -204,7 +204,7 @@ export default class Header extends React.Component {
 							<MenuOutlineIcon />
 						</IconButton>
 						<Typography variant="title" color="inherit">
-							PillUp	
+							PillUp - Physician View	
 						</Typography>
 					</Toolbar>
 				</AppBar>
